@@ -7,7 +7,7 @@ from .models import LeadModel, LeadGerated, Subject
 URL = "http://repositorio.ufsm.br/handle/1/{}?show=full"
 
 def get_docs():
-    for doc in range(1):
+    for doc in range(10):
         data = r.get(URL.format((doc+10000)))
         if data:
             soup = BeautifulSoup(data.text, 'html.parser')
@@ -28,7 +28,9 @@ def get_docs():
                 except Subject.DoesNotExist:
                     ob_subjects.append(Subject.objects.create(name=sub))
 
-            lead = lead.format(title=lc['title'], type=lc['type'], author=lc['author'], advisor=lc['advisor'], subjects=lc['subjects'], program=lc['program'], link="hihih")
+            lead = lead.format(title=lc['title'], type=lc['type'],
+                author=lc['author'], advisor=lc['advisor'],
+                subjects=lc['subjects'], program=lc['program'], link=lc['link'])
 
             ltype = lc['type'][0].lower()
 
@@ -69,7 +71,7 @@ def get_content(soup):
         'program': program[0]['content'],
         'advisor': advisor,
         'subjects': subject_content,
-        'link': "hihihih",
+        'link': "<a href='www.google.com'>Repositório Manacial</a>",
     }
     return lead_content, subjects
 
